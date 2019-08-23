@@ -14,22 +14,24 @@ public class FriendsDao implements FriendRepo {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Override
-    public List<Friends> getFriends() {
-      List<Friends> list=jdbcTemplate.query("select * from Friends;",new BeanPropertyRowMapper<>(Friends.class));
-        return list;
+    public List<Friends> getFriends() {                         // this all are the implemented methods of FriendRepo interface
+        List<Friends> list=jdbcTemplate.query("select * from Friends",
+                new BeanPropertyRowMapper<>(Friends.class));        //Frineds.class is the mapping class or we can say
+        return list;                    //it is the table of our database
     }
 
     @Override
     public Friends getFriend(String name) {
-        Friends friends=jdbcTemplate.queryForObject("select * from Friends where name = ?",new Object[]{name},new BeanPropertyRowMapper<>(Friends.class));
-        return friends;
+        Friends friend=jdbcTemplate.queryForObject("select * from Friends where name = ?",
+                new Object[]{name},new BeanPropertyRowMapper<>(Friends.class));   //the parameter of Object should be same as
+        return friend;                          // the parameter of in the method
     }
 
     @Override
     public String insertData(Friends friends) {
-        jdbcTemplate.update("insert into Friends values(?,?,?)",new Object[]{friends.getName(),friends.getAddress(),friends.getMobno()});
-        return "Data saved";
+        jdbcTemplate.update("insert into Friends values(?,?,?)",
+                new Object[]{friends.getName(),friends.getAddress(),friends.getMobno()});
+        return "Data Saved";
     }
 }
